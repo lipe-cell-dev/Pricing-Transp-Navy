@@ -2,7 +2,7 @@
 
 ## Marine loading component (`cmpMarineLoader`)
 
-An animated loading overlay for Power Apps canvas apps. A container ship bobs on three layers of waves under a night sky, with smoke rising from the funnel, a blinking mast light and twinkling stars. Under the scene there are animated "Loading..." dots and a progress bar that slides back and forth.
+A minimalist, single-colour loading overlay for Power Apps canvas apps. An outlined container ship bobs on scrolling wave lines, with smoke rings rising from the funnel, a blinking mast light, a sun and two gulls. Under the drawing there are animated "Loading..." dots and a thin progress bar that slides back and forth. Everything is orange line art on white by default.
 
 ![Marine loader frames](docs/marine-loader-preview.png)
 
@@ -15,6 +15,8 @@ An animated loading overlay for Power Apps canvas apps. A container ship bobs on
 
 One hidden `Timer` (4 s, repeating) drives everything. The SVG is rebuilt from `tmrMarineLoader.Value`. Every motion completes a whole number of cycles in those 4 s, so the loop has no visible jump. The SVG has no SMIL or CSS animation, so it behaves the same on web, mobile and Teams.
 
+`AccentColor` sets the line colour of the drawing, the main text and the progress bar. The formula converts it to hex for the SVG with `Mid(JSON(color), 2, 7)`. To use another colour, change that one property.
+
 ### Add it to your app
 
 1. **Components** tab → **New component** → rename it to `cmpMarineLoader`.
@@ -25,8 +27,8 @@ One hidden `Timer` (4 s, repeating) drives everything. The SVG is rebuilt from `
    | `IsLoading` | Boolean | `true` |
    | `LoadingText` | Text | `"Loading"` |
    | `SubText` | Text | `"Charting the best route"` |
-   | `AccentColor` | Color | `RGBA(79, 195, 247, 1)` |
-   | `BackgroundColor` | Color | `RGBA(10, 25, 47, 0.96)` |
+   | `AccentColor` | Color | `RGBA(255, 122, 0, 1)` |
+   | `BackgroundColor` | Color | `RGBA(255, 255, 255, 1)` |
 
 3. Set the component's `Fill` to `cmpMarineLoader.BackgroundColor`. Set its size to 640 × 420 or any size you like, since the layout adapts.
 4. Open `cmpMarineLoader.controls.paste.yaml` and copy all of it. Then right-click the component in the Tree view → **Paste code**.

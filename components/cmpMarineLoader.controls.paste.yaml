@@ -21,7 +21,7 @@
       X: =(Parent.Width - Self.Width) / 2
       Y: =Max(0, (Parent.Height - Self.Height - 96) / 2)
       Width: =Min(Parent.Width - 32, 480)
-      Height: =Self.Width * 0.6
+      Height: =Self.Width * 0.425
       ImagePosition: =ImagePosition.Fit
       RadiusTopLeft: =16
       RadiusTopRight: =16
@@ -32,56 +32,40 @@
         =With(
             {
                 p: tmrMarineLoader.Value / tmrMarineLoader.Duration,
-                fmt: "0.00"
+                fmt: "0.00",
+                c: Mid(JSON(cmpMarineLoader.AccentColor), 2, 7)
             },
             With(
                 {
-                    bob: Text(4 * Sin(4 * Pi() * p), fmt, "en-US"),
-                    rot: Text(2.5 * Cos(4 * Pi() * p), fmt, "en-US"),
-                    wBack: Text(-100 + 100 * p, fmt, "en-US"),
-                    wMid: Text(-80 * Mod(2 * p, 1), fmt, "en-US"),
-                    wFront: Text(-120 + 120 * p, fmt, "en-US"),
+                    bob: Text(3 * Sin(4 * Pi() * p), fmt, "en-US"),
+                    rot: Text(2 * Cos(4 * Pi() * p), fmt, "en-US"),
+                    birds: Text(-2.5 * Sin(2 * Pi() * p), fmt, "en-US"),
+                    wBack: Text(-60 * Mod(2 * p, 1), fmt, "en-US"),
+                    wFront: Text(-90 + 90 * p, fmt, "en-US"),
+                    wFar: Text(-120 * p, fmt, "en-US"),
                     q1: Mod(2 * p, 1),
-                    q2: Mod(2 * p + 1/3, 1),
-                    q3: Mod(2 * p + 2/3, 1),
-                    blink: If(Mod(4 * p, 1) < 0.5, "1", "0.15"),
-                    tw1: Text(0.3 + 0.7 * Abs(Sin(2 * Pi() * p)), fmt, "en-US"),
-                    tw2: Text(0.3 + 0.7 * Abs(Cos(2 * Pi() * p)), fmt, "en-US")
+                    q2: Mod(2 * p + 1/2, 1),
+                    blink: If(Mod(4 * p, 1) < 0.5, "1", "0.2")
                 },
                 "data:image/svg+xml;utf8," & EncodeUrl(
-                    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240'>" &
-                    "<defs>" &
-                    "<linearGradient id='sky' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#0A192F'/><stop offset='1' stop-color='#173A63'/></linearGradient>" &
-                    "<radialGradient id='glow'><stop offset='0' stop-color='#FFF8E1' stop-opacity='0.35'/><stop offset='1' stop-color='#FFF8E1' stop-opacity='0'/></radialGradient>" &
-                    "</defs>" &
-                    "<rect width='400' height='240' fill='url(#sky)'/>" &
-                    "<circle cx='60' cy='40' r='1.4' fill='#FFFFFF' opacity='" & tw1 & "'/>" &
-                    "<circle cx='120' cy='22' r='1' fill='#FFFFFF' opacity='" & tw2 & "'/>" &
-                    "<circle cx='210' cy='48' r='1.2' fill='#FFFFFF' opacity='" & tw1 & "'/>" &
-                    "<circle cx='260' cy='18' r='1' fill='#FFFFFF' opacity='" & tw2 & "'/>" &
-                    "<circle cx='380' cy='70' r='1.2' fill='#FFFFFF' opacity='" & tw1 & "'/>" &
-                    "<circle cx='330' cy='52' r='36' fill='url(#glow)'/>" &
-                    "<circle cx='330' cy='52' r='16' fill='#FFF8E1'/>" &
-                    "<circle cx='336' cy='47' r='14' fill='#173A63' opacity='0.25'/>" &
-                    "<g transform='translate(" & wBack & ",0)'><path d='M0,158 Q25,152 50,158 T100,158 T150,158 T200,158 T250,158 T300,158 T350,158 T400,158 T450,158 T500,158 T550,158 T600,158 L600,240 L0,240 Z' fill='#1E3A5F'/></g>" &
-                    "<g transform='translate(0," & bob & ") rotate(" & rot & " 205 150)'>" &
-                    "<circle cx='" & Text(155 - 14 * q1, fmt, "en-US") & "' cy='" & Text(84 - 34 * q1, fmt, "en-US") & "' r='" & Text(4 + 6 * q1, fmt, "en-US") & "' fill='#CFD8DC' opacity='" & Text(0.55 * (1 - q1), fmt, "en-US") & "'/>" &
-                    "<circle cx='" & Text(155 - 14 * q2, fmt, "en-US") & "' cy='" & Text(84 - 34 * q2, fmt, "en-US") & "' r='" & Text(4 + 6 * q2, fmt, "en-US") & "' fill='#CFD8DC' opacity='" & Text(0.55 * (1 - q2), fmt, "en-US") & "'/>" &
-                    "<circle cx='" & Text(155 - 14 * q3, fmt, "en-US") & "' cy='" & Text(84 - 34 * q3, fmt, "en-US") & "' r='" & Text(4 + 6 * q3, fmt, "en-US") & "' fill='#CFD8DC' opacity='" & Text(0.55 * (1 - q3), fmt, "en-US") & "'/>" &
-                    "<rect x='150' y='86' width='10' height='14' fill='#F57C00'/><rect x='150' y='86' width='10' height='4' fill='#263238'/>" &
-                    "<rect x='138' y='100' width='28' height='38' rx='2' fill='#ECEFF1'/>" &
-                    "<rect x='141' y='104' width='22' height='5' fill='#0A192F'/><rect x='141' y='114' width='22' height='3' fill='#90A4AE'/><rect x='141' y='122' width='22' height='3' fill='#90A4AE'/>" &
-                    "<rect x='172' y='124' width='18' height='13' rx='1' fill='#F57C00'/><rect x='192' y='124' width='18' height='13' rx='1' fill='#00897B'/><rect x='212' y='124' width='18' height='13' rx='1' fill='#FBC02D'/><rect x='232' y='124' width='18' height='13' rx='1' fill='#E53935'/><rect x='252' y='124' width='18' height='13' rx='1' fill='#4FC3F7'/>" &
-                    "<rect x='182' y='110' width='18' height='13' rx='1' fill='#F57C00'/><rect x='202' y='110' width='18' height='13' rx='1' fill='#00897B'/><rect x='222' y='110' width='18' height='13' rx='1' fill='#FBC02D'/><rect x='242' y='110' width='18' height='13' rx='1' fill='#E53935'/>" &
-                    "<line x1='272' y1='118' x2='272' y2='137' stroke='#B0BEC5' stroke-width='1.5'/>" &
-                    "<circle cx='272' cy='117' r='2.2' fill='#FF5252' opacity='" & blink & "'/>" &
-                    "<path d='M128,138 L284,136 L266,160 L140,160 Z' fill='#263238'/>" &
-                    "<path d='M133,150 L276,150 L266,160 L140,160 Z' fill='#B71C1C'/>" &
-                    "<line x1='130' y1='141' x2='281' y2='139.5' stroke='#ECEFF1' stroke-width='1' opacity='0.6'/>" &
+                    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 30 400 170' fill='none' stroke='" & c & "' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'>" &
+                    "<circle cx='86' cy='58' r='14'/>" &
+                    "<g transform='translate(0," & birds & ")' stroke-width='2'><path d='M292,52 q6,-6 12,0 q6,-6 12,0'/><path d='M322,70 q4,-4 8,0 q4,-4 8,0'/></g>" &
+                    "<g transform='translate(0," & bob & ") rotate(" & rot & " 205 142)'>" &
+                    "<circle cx='" & Text(155 - 12 * q1, fmt, "en-US") & "' cy='" & Text(78 - 30 * q1, fmt, "en-US") & "' r='" & Text(3 + 5 * q1, fmt, "en-US") & "' stroke-width='2' stroke-opacity='" & Text(1 - q1, fmt, "en-US") & "'/>" &
+                    "<circle cx='" & Text(155 - 12 * q2, fmt, "en-US") & "' cy='" & Text(78 - 30 * q2, fmt, "en-US") & "' r='" & Text(3 + 5 * q2, fmt, "en-US") & "' stroke-width='2' stroke-opacity='" & Text(1 - q2, fmt, "en-US") & "'/>" &
+                    "<path d='M150,100 L150,86 L160,86 L160,100'/>" &
+                    "<rect x='142' y='100' width='26' height='32' rx='2'/>" &
+                    "<line x1='148' y1='110' x2='162' y2='110'/>" &
+                    "<rect x='176' y='118' width='18' height='14' rx='1.5'/><rect x='198' y='118' width='18' height='14' rx='1.5'/><rect x='220' y='118' width='18' height='14' rx='1.5'/><rect x='242' y='118' width='18' height='14' rx='1.5'/>" &
+                    "<rect x='187' y='104' width='18' height='14' rx='1.5'/><rect x='209' y='104' width='18' height='14' rx='1.5'/><rect x='231' y='104' width='18' height='14' rx='1.5'/>" &
+                    "<line x1='272' y1='132' x2='272' y2='114'/>" &
+                    "<circle cx='272' cy='111' r='2' fill='" & c & "' stroke='none' opacity='" & blink & "'/>" &
+                    "<path d='M128,132 L284,132 L268,152 L144,152 Z'/>" &
                     "</g>" &
-                    "<g transform='translate(" & wMid & ",0)'><path d='M0,166 Q20,159 40,166 T80,166 T120,166 T160,166 T200,166 T240,166 T280,166 T320,166 T360,166 T400,166 T440,166 T480,166 T520,166 T560,166 L560,240 L0,240 Z' fill='#1565C0' opacity='0.92'/></g>" &
-                    "<g transform='translate(" & wFront & ",0)'><path d='M0,180 Q30,172 60,180 T120,180 T180,180 T240,180 T300,180 T360,180 T420,180 T480,180 T540,180 T600,180 T660,180 L660,240 L0,240 Z' fill='#0D47A1'/>" &
-                    "<path d='M0,180 Q30,172 60,180 T120,180 T180,180 T240,180 T300,180 T360,180 T420,180 T480,180 T540,180 T600,180 T660,180' fill='none' stroke='#FFFFFF' stroke-width='1.5' opacity='0.35'/></g>" &
+                    "<g transform='translate(" & wBack & ",0)' opacity='0.45'><path d='M0,160 Q15,156 30,160 T60,160 T90,160 T120,160 T150,160 T180,160 T210,160 T240,160 T270,160 T300,160 T330,160 T360,160 T390,160 T420,160 T450,160 T480,160 T510,160 T540,160'/></g>" &
+                    "<g transform='translate(" & wFront & ",0)'><path d='M0,170 Q22.5,164 45,170 T90,170 T135,170 T180,170 T225,170 T270,170 T315,170 T360,170 T405,170 T450,170 T495,170 T540,170 T585,170'/></g>" &
+                    "<g transform='translate(" & wFar & ",0)' opacity='0.3' stroke-dasharray='18 14'><path d='M0,184 Q30,181 60,184 T120,184 T180,184 T240,184 T300,184 T360,184 T420,184 T480,184 T540,184 T600,184 T660,184'/></g>" &
                     "</svg>"
                 )
             )
@@ -95,7 +79,7 @@
       Height: =32
       Align: =Align.Center
       Font: =Font.'Segoe UI'
-      FontWeight: =FontWeight.Semibold
+      FontWeight: =FontWeight.Normal
       Size: =16
       Color: =cmpMarineLoader.AccentColor
       Text: |-
@@ -110,7 +94,7 @@
       Align: =Align.Center
       Font: =Font.'Segoe UI'
       Size: =10
-      Color: =RGBA(176, 190, 197, 1)
+      Color: =RGBA(128, 128, 128, 1)
       Text: =cmpMarineLoader.SubText
 - imgMarineTrack:
     Control: Image@2.2.3
@@ -120,7 +104,7 @@
       Width: =Min(Parent.Width - 64, 240)
       Height: =4
       Image: =Blank()
-      Fill: =RGBA(255, 255, 255, 0.12)
+      Fill: =ColorFade(cmpMarineLoader.AccentColor, 0.8)
       RadiusTopLeft: =2
       RadiusTopRight: =2
       RadiusBottomLeft: =2
