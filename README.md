@@ -30,7 +30,7 @@ One hidden `Timer` (4 s, repeating) drives everything. The SVG is rebuilt from `
    | `AccentColor` | Color | `RGBA(255, 122, 0, 1)` |
    | `BackgroundColor` | Color | `RGBA(255, 255, 255, 1)` |
 
-3. Set the component's `Fill` to `cmpMarineLoader.BackgroundColor`. Set its size to 640 × 420 or any size you like, since the layout adapts.
+3. Set the component's `Fill` to `cmpMarineLoader.BackgroundColor`. Set its size to 640 × 420 or any size you like. The drawing and text scale with the component, so stretched over a full screen the drawing takes about 70% of the height.
 4. Open `cmpMarineLoader.controls.paste.yaml` and copy all of it. Then right-click the component in the Tree view → **Paste code**.
 
 If you use source control or `pac canvas` with `.pa.yaml` sources, you can drop in `cmpMarineLoader.pa.yaml` as is.

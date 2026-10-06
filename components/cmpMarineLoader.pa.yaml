@@ -59,9 +59,9 @@ ComponentDefinitions:
           Control: Image@2.2.3
           Properties:
             X: =(Parent.Width - Self.Width) / 2
-            Y: =Max(0, (Parent.Height - Self.Height - 96) / 2)
-            Width: =Min(Parent.Width - 32, 480)
-            Height: =Self.Width * 0.4
+            Y: =Max(8, (Parent.Height - Self.Height - 120) / 2)
+            Width: =Min(Parent.Width - 48, Min(Parent.Height - 150, Parent.Height * 0.7) / 0.615, 1100)
+            Height: =Self.Width * 0.615
             ImagePosition: =ImagePosition.Fit
             RadiusTopLeft: =16
             RadiusTopRight: =16
@@ -87,10 +87,12 @@ ComponentDefinitions:
                           blink: If(Mod(4 * p, 1) < 0.5, "1", "0.2")
                       },
                       "data:image/svg+xml;utf8," & EncodeUrl(
-                          "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 36 400 160' fill='none' stroke='" & c & "' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'>" &
+                          "<svg xmlns='http://www.w3.org/2000/svg' viewBox='70 36 260 160' fill='none' stroke='" & c & "' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>" &
+                          "<defs><linearGradient id='fade' x1='0' x2='1'><stop offset='0' stop-color='#FFFFFF' stop-opacity='0'/><stop offset='0.18' stop-color='#FFFFFF'/><stop offset='0.82' stop-color='#FFFFFF'/><stop offset='1' stop-color='#FFFFFF' stop-opacity='0'/></linearGradient>" &
+                          "<mask id='edges'><rect x='70' y='36' width='260' height='160' fill='url(#fade)' stroke='none'/></mask></defs>" &
                           "<g transform='translate(0," & bob & ") rotate(" & rot & " 205 142)'>" &
-                          "<circle cx='" & Text(155 - 12 * q1, fmt, "en-US") & "' cy='" & Text(78 - 30 * q1, fmt, "en-US") & "' r='" & Text(3 + 5 * q1, fmt, "en-US") & "' stroke-width='2' stroke-opacity='" & Text(1 - q1, fmt, "en-US") & "'/>" &
-                          "<circle cx='" & Text(155 - 12 * q2, fmt, "en-US") & "' cy='" & Text(78 - 30 * q2, fmt, "en-US") & "' r='" & Text(3 + 5 * q2, fmt, "en-US") & "' stroke-width='2' stroke-opacity='" & Text(1 - q2, fmt, "en-US") & "'/>" &
+                          "<circle cx='" & Text(155 - 12 * q1, fmt, "en-US") & "' cy='" & Text(78 - 30 * q1, fmt, "en-US") & "' r='" & Text(3 + 5 * q1, fmt, "en-US") & "' stroke-width='1.5' stroke-opacity='" & Text(1 - q1, fmt, "en-US") & "'/>" &
+                          "<circle cx='" & Text(155 - 12 * q2, fmt, "en-US") & "' cy='" & Text(78 - 30 * q2, fmt, "en-US") & "' r='" & Text(3 + 5 * q2, fmt, "en-US") & "' stroke-width='1.5' stroke-opacity='" & Text(1 - q2, fmt, "en-US") & "'/>" &
                           "<path d='M150,100 L150,86 L160,86 L160,100'/>" &
                           "<rect x='142' y='100' width='26' height='32' rx='2'/>" &
                           "<line x1='148' y1='110' x2='162' y2='110'/>" &
@@ -100,10 +102,10 @@ ComponentDefinitions:
                           "<circle cx='272' cy='111' r='2' fill='" & c & "' stroke='none' opacity='" & blink & "'/>" &
                           "<path d='M128,132 L284,132 L268,152 L144,152 Z'/>" &
                           "</g>" &
-                          "<g transform='translate(" & wBack & ",0)' opacity='0.45'><path d='M0,160 Q15,156 30,160 T60,160 T90,160 T120,160 T150,160 T180,160 T210,160 T240,160 T270,160 T300,160 T330,160 T360,160 T390,160 T420,160 T450,160 T480,160 T510,160 T540,160'/></g>" &
+                          "<g mask='url(#edges)'><g transform='translate(" & wBack & ",0)' opacity='0.45'><path d='M0,160 Q15,156 30,160 T60,160 T90,160 T120,160 T150,160 T180,160 T210,160 T240,160 T270,160 T300,160 T330,160 T360,160 T390,160 T420,160 T450,160 T480,160 T510,160 T540,160'/></g>" &
                           "<g transform='translate(" & wFront & ",0)'><path d='M0,170 Q22.5,164 45,170 T90,170 T135,170 T180,170 T225,170 T270,170 T315,170 T360,170 T405,170 T450,170 T495,170 T540,170 T585,170'/></g>" &
                           "<g transform='translate(" & wFar & ",0)' opacity='0.3' stroke-dasharray='18 14'><path d='M0,184 Q30,181 60,184 T120,184 T180,184 T240,184 T300,184 T360,184 T420,184 T480,184 T540,184 T600,184 T660,184'/></g>" &
-                          "</svg>"
+                          "</g></svg>"
                       )
                   )
               )
@@ -111,13 +113,13 @@ ComponentDefinitions:
           Control: Label@2.5.1
           Properties:
             X: =16
-            Y: =imgMarineScene.Y + imgMarineScene.Height + 16
+            Y: =imgMarineScene.Y + imgMarineScene.Height + 8
             Width: =Parent.Width - 32
-            Height: =32
+            Height: =Self.Size * 2
             Align: =Align.Center
             Font: =Font.'Segoe UI'
             FontWeight: =FontWeight.Normal
-            Size: =16
+            Size: =Min(24, Max(16, RoundDown(imgMarineScene.Width / 32, 0)))
             Color: =cmpMarineLoader.AccentColor
             Text: |-
               =cmpMarineLoader.LoadingText & Left("...", Mod(RoundDown(tmrMarineLoader.Value / 400, 0), 4)) & Left("   ", 3 - Mod(RoundDown(tmrMarineLoader.Value / 400, 0), 4))
@@ -127,10 +129,10 @@ ComponentDefinitions:
             X: =16
             Y: =lblMarineLoading.Y + lblMarineLoading.Height
             Width: =Parent.Width - 32
-            Height: =24
+            Height: =Self.Size * 2.2
             Align: =Align.Center
             Font: =Font.'Segoe UI'
-            Size: =10
+            Size: =Min(14, Max(10, RoundDown(imgMarineScene.Width / 60, 0)))
             Color: =RGBA(128, 128, 128, 1)
             Text: =cmpMarineLoader.SubText
       - imgMarineTrack:
@@ -138,7 +140,7 @@ ComponentDefinitions:
           Properties:
             X: =(Parent.Width - Self.Width) / 2
             Y: =lblMarineSubText.Y + lblMarineSubText.Height + 12
-            Width: =Min(Parent.Width - 64, 240)
+            Width: =Min(Parent.Width - 64, Max(240, imgMarineScene.Width * 0.4))
             Height: =4
             Image: =Blank()
             Fill: =ColorFade(cmpMarineLoader.AccentColor, 0.8)
