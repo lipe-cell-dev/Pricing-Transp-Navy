@@ -2,7 +2,7 @@
 
 ## Marine loading component (`cmpMarineLoader`)
 
-A minimalist, single-colour loading overlay for Power Apps canvas apps. An outlined container ship bobs on scrolling wave lines, with smoke rings rising from the funnel, a blinking mast light, a sun and two gulls. Under the drawing there are animated "Loading..." dots and a thin progress bar that slides back and forth. Everything is orange line art on white by default.
+A minimalist, single-colour loading overlay for Power Apps canvas apps. An outlined container ship bobs on scrolling wave lines, with smoke rings rising from the funnel and a blinking mast light. Under the drawing there are animated "Loading..." dots and a thin progress bar that slides back and forth. Everything is orange line art on white by default.
 
 ![Marine loader frames](docs/marine-loader-preview.png)
 

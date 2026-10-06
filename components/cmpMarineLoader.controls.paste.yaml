@@ -21,7 +21,7 @@
       X: =(Parent.Width - Self.Width) / 2
       Y: =Max(0, (Parent.Height - Self.Height - 96) / 2)
       Width: =Min(Parent.Width - 32, 480)
-      Height: =Self.Width * 0.425
+      Height: =Self.Width * 0.4
       ImagePosition: =ImagePosition.Fit
       RadiusTopLeft: =16
       RadiusTopRight: =16
@@ -39,7 +39,6 @@
                 {
                     bob: Text(3 * Sin(4 * Pi() * p), fmt, "en-US"),
                     rot: Text(2 * Cos(4 * Pi() * p), fmt, "en-US"),
-                    birds: Text(-2.5 * Sin(2 * Pi() * p), fmt, "en-US"),
                     wBack: Text(-60 * Mod(2 * p, 1), fmt, "en-US"),
                     wFront: Text(-90 + 90 * p, fmt, "en-US"),
                     wFar: Text(-120 * p, fmt, "en-US"),
@@ -48,9 +47,7 @@
                     blink: If(Mod(4 * p, 1) < 0.5, "1", "0.2")
                 },
                 "data:image/svg+xml;utf8," & EncodeUrl(
-                    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 30 400 170' fill='none' stroke='" & c & "' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'>" &
-                    "<circle cx='86' cy='58' r='14'/>" &
-                    "<g transform='translate(0," & birds & ")' stroke-width='2'><path d='M292,52 q6,-6 12,0 q6,-6 12,0'/><path d='M322,70 q4,-4 8,0 q4,-4 8,0'/></g>" &
+                    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 36 400 160' fill='none' stroke='" & c & "' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'>" &
                     "<g transform='translate(0," & bob & ") rotate(" & rot & " 205 142)'>" &
                     "<circle cx='" & Text(155 - 12 * q1, fmt, "en-US") & "' cy='" & Text(78 - 30 * q1, fmt, "en-US") & "' r='" & Text(3 + 5 * q1, fmt, "en-US") & "' stroke-width='2' stroke-opacity='" & Text(1 - q1, fmt, "en-US") & "'/>" &
                     "<circle cx='" & Text(155 - 12 * q2, fmt, "en-US") & "' cy='" & Text(78 - 30 * q2, fmt, "en-US") & "' r='" & Text(3 + 5 * q2, fmt, "en-US") & "' stroke-width='2' stroke-opacity='" & Text(1 - q2, fmt, "en-US") & "'/>" &
