@@ -1,0 +1,297 @@
+# Paste-ready controls for cmpSidebar (generated from cmpSidebar.pa.yaml).
+# In Power Apps Studio: create the component and its custom properties first,
+# then right-click the component in the Tree view and choose Paste code.
+
+- conSidebarRoot:
+    Control: GroupContainer@1.5.0
+    Variant: AutoLayout
+    Properties:
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =Parent.Height
+      Fill: =RGBA(255, 255, 255, 1)
+      DropShadow: =DropShadow.None
+      RadiusTopLeft: =0
+      RadiusTopRight: =0
+      RadiusBottomLeft: =0
+      RadiusBottomRight: =0
+      LayoutDirection: =LayoutDirection.Vertical
+      LayoutJustifyContent: =LayoutJustifyContent.Start
+      LayoutAlignItems: =LayoutAlignItems.Stretch
+      LayoutGap: =0
+      LayoutWrap: =false
+      PaddingLeft: =9
+      PaddingRight: =9
+      PaddingTop: =0
+      PaddingBottom: =0
+    Children:
+      - conSidebarBrand:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =0
+            Height: =100
+            LayoutMinWidth: =0
+            LayoutMinHeight: =100
+            DropShadow: =DropShadow.None
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+          Children:
+            - lblSidebarLogo:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =IsBlank(cmpSidebar.LogoImage)
+                  X: =If(cmpSidebar.Expanded, 8, 0)
+                  Y: =16
+                  Width: =If(cmpSidebar.Expanded, Parent.Width - 8, Parent.Width)
+                  Height: =44
+                  Text: =If(cmpSidebar.Expanded, cmpSidebar.LogoText, Left(cmpSidebar.LogoText, 1))
+                  Align: =If(cmpSidebar.Expanded, Align.Left, Align.Center)
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Size: =22
+                  Color: =cmpSidebar.AccentColor
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+            - imgSidebarLogo:
+                Control: Image@2.2.3
+                Properties:
+                  Visible: =!IsBlank(cmpSidebar.LogoImage)
+                  X: =If(cmpSidebar.Expanded, 8, 0)
+                  Y: =20
+                  Width: =If(cmpSidebar.Expanded, 90, Parent.Width)
+                  Height: =36
+                  Image: =cmpSidebar.LogoImage
+                  ImagePosition: =If(cmpSidebar.Expanded, ImagePosition.Fit, ImagePosition.Center)
+            - lblSidebarProduct:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =cmpSidebar.Expanded
+                  X: =5
+                  Y: =72
+                  Width: =Parent.Width - 5
+                  Height: =20
+                  Text: =cmpSidebar.ProductLabel
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Size: =8.5
+                  Color: =RGBA(39, 39, 42, 1)
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+            - rctSidebarBrandDivider:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =0
+                  Y: =95
+                  Width: =Parent.Width
+                  Height: =1
+                  Fill: =RGBA(228, 228, 231, 1)
+      - galSidebarNav:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =1
+            LayoutMinWidth: =0
+            LayoutMinHeight: =0
+            Items: =cmpSidebar.Items
+            TemplateSize: =44
+            TemplatePadding: =0
+            ShowScrollbar: =false
+            BorderThickness: =0
+          Children:
+            - rctNavDivider:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Visible: =ThisItem.Kind = "section" && ThisItem.Divider
+                  X: =0
+                  Y: =8
+                  Width: =Parent.TemplateWidth
+                  Height: =1
+                  Fill: =RGBA(228, 228, 231, 1)
+            - lblNavSection:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ThisItem.Kind = "section" && cmpSidebar.Expanded
+                  X: =0
+                  Y: =20
+                  Width: =Parent.TemplateWidth
+                  Height: =18
+                  Text: =ThisItem.Label
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =7.5
+                  Color: =RGBA(156, 163, 175, 1)
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+            - imgNavActiveBg:
+                Control: Image@2.2.3
+                Properties:
+                  Visible: =ThisItem.Kind = "item" && ThisItem.ItemID = cmpSidebar.ActiveItemID
+                  X: =2
+                  Y: =2
+                  Width: =Parent.TemplateWidth - 4
+                  Height: =40
+                  Image: =Blank()
+                  Fill: =RGBA(255, 241, 232, 1)
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+            - imgNavIcon:
+                Control: Image@2.2.3
+                Properties:
+                  Visible: =ThisItem.Kind = "item"
+                  X: =If(cmpSidebar.Expanded, 10, (Parent.TemplateWidth - Self.Width) / 2)
+                  Y: =12
+                  Width: =20
+                  Height: =20
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='" &
+                        Mid(JSON(If(ThisItem.ItemID = cmpSidebar.ActiveItemID, cmpSidebar.AccentColor, RGBA(82, 82, 91, 1))), 2, 7) &
+                        "' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'>" & ThisItem.Icon & "</svg>"
+                    )
+            - lblNavItem:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =ThisItem.Kind = "item" && cmpSidebar.Expanded
+                  X: =35
+                  Y: =2
+                  Width: =Parent.TemplateWidth - Self.X - 4
+                  Height: =40
+                  Text: =ThisItem.Label
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =If(ThisItem.ItemID = cmpSidebar.ActiveItemID, FontWeight.Semibold, FontWeight.Normal)
+                  Size: =10.5
+                  Color: =If(ThisItem.ItemID = cmpSidebar.ActiveItemID, cmpSidebar.AccentColor, RGBA(63, 63, 70, 1))
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+            - btnNavItem:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  Visible: =ThisItem.Kind = "item"
+                  X: =2
+                  Y: =2
+                  Width: =Parent.TemplateWidth - 4
+                  Height: =40
+                  Text: =""
+                  Tooltip: =ThisItem.Label
+                  AccessibleLabel: =ThisItem.Label
+                  OnSelect: =Navigate(ThisItem.Screen, ScreenTransition.None)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(24, 24, 27, 0.04)
+                  PressedFill: =RGBA(24, 24, 27, 0.08)
+                  Color: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(0, 0, 0, 0)
+                  PressedColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  FocusedBorderColor: =cmpSidebar.AccentColor
+                  FocusedBorderThickness: =2
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+      - conSidebarFooter:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =0
+            Height: =56
+            LayoutMinWidth: =0
+            LayoutMinHeight: =56
+            DropShadow: =DropShadow.None
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+          Children:
+            - rctSidebarFooterDivider:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =0
+                  Y: =0
+                  Width: =Parent.Width
+                  Height: =1
+                  Fill: =RGBA(228, 228, 231, 1)
+            - imgSidebarAvatar:
+                Control: Image@2.2.3
+                Properties:
+                  X: =If(cmpSidebar.Expanded, 0, (Parent.Width - Self.Width) / 2)
+                  Y: =13
+                  Width: =32
+                  Height: =32
+                  Tooltip: =cmpSidebar.UserName
+                  AccessibleLabel: =cmpSidebar.UserName
+                  Image: |-
+                    =With(
+                        {
+                            parts: Split(Trim(cmpSidebar.UserName), " ")
+                        },
+                        With(
+                            {
+                                initials: Upper(Left(First(parts).Value, 1) & If(CountRows(parts) > 1, Left(Last(parts).Value, 1), ""))
+                            },
+                            "data:image/svg+xml;utf8," & EncodeUrl(
+                                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>" &
+                                "<circle cx='16' cy='16' r='16' fill='" & Mid(JSON(cmpSidebar.AvatarColor), 2, 7) & "'/>" &
+                                "<text x='16' y='16' dy='0.36em' text-anchor='middle' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='700' fill='#FFFFFF'>" & initials & "</text>" &
+                                "</svg>"
+                            )
+                        )
+                    )
+            - lblSidebarUserName:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =cmpSidebar.Expanded
+                  X: =42
+                  Y: =12
+                  Width: =Parent.Width - Self.X
+                  Height: =18
+                  Text: =cmpSidebar.UserName
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Color: =RGBA(24, 24, 27, 1)
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+            - lblSidebarUserSubtitle:
+                Control: Label@2.5.1
+                Properties:
+                  Visible: =cmpSidebar.Expanded
+                  X: =42
+                  Y: =30
+                  Width: =Parent.Width - Self.X
+                  Height: =15
+                  Text: =cmpSidebar.UserSubtitle
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  Size: =7.5
+                  Color: =RGBA(161, 161, 170, 1)
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0

@@ -59,3 +59,57 @@ UpdateContext({ locIsLoading: false })
 ```
 
 > Timers only run in **Preview** (F5) or the published app, so the scene stays still while you edit in Studio.
+
+## Sidebar navigation component (`cmpSidebar`)
+
+The app's left menu: logo, product label, a menu split into sections with icons, and the signed-in user at the bottom. The menu is driven by one `Items` table, so you add, rename or reorder entries without touching any controls. Set `Expanded` to `false` to get an icons-only rail for tablet widths. Hovering an icon then shows its label as a tooltip.
+
+![Sidebar expanded and collapsed](docs/sidebar-preview.png)
+
+| File | Use |
+|---|---|
+| `components/cmpSidebar.pa.yaml` | Full component definition (custom properties + controls) |
+| `components/cmpSidebar.controls.paste.yaml` | Controls only, ready for **Paste code** in Studio |
+| `components/cmpSidebar.items.fx` | Default value of the `Items` property, ready for the formula bar |
+
+### Add it to your app
+
+1. **Components** tab → **New component** → rename it to `cmpSidebar`. Set Width `218` and Height `784`.
+2. In the component's right panel, turn on **Access app scope**. Without it, the menu can't navigate to your screens.
+3. Add these custom properties (all **Input**):
+
+   | Name | Type | Default |
+   |---|---|---|
+   | `Items` | Table | contents of `cmpSidebar.items.fx` |
+   | `ActiveItemID` | Text | `"exec"` |
+   | `Expanded` | Boolean | `true` |
+   | `LogoText` | Text | `"galp"` |
+   | `LogoImage` | Image | `Blank()` |
+   | `ProductLabel` | Text | `"PRICING · T&D"` |
+   | `UserName` | Text | `User().FullName` |
+   | `UserSubtitle` | Text | `"TRP · PT"` |
+   | `AccentColor` | Color | `RGBA(255, 95, 0, 1)` |
+   | `AvatarColor` | Color | `RGBA(22, 163, 77, 1)` |
+
+4. Copy all of `cmpSidebar.controls.paste.yaml`, then right-click the component in the Tree view → **Paste code**.
+
+### Connect the menu to your screens
+
+In the `Items` default, replace each `Screen: App.ActiveScreen` with the screen that row should open, for example `Screen: scrExecucaoSemanal`. Section rows (`Kind: "section"`) are not clickable, so their `Screen` value doesn't matter.
+
+To add an entry, copy an `item` row, then give it a new `ItemID`, a `Label` and an `Icon`. `Icon` is the inner SVG of any 24×24 stroke icon. The defaults come from [Lucide](https://lucide.dev), so copy the elements inside `<svg>` from there and switch their double quotes to single quotes.
+
+### Use it on a screen
+
+Insert the component at the left of each screen and set:
+
+```
+X: =0
+Y: =0
+Height: =App.Height
+Width: =If(App.Width >= 1200, 218, 64)
+Expanded: =App.Width >= 1200
+ActiveItemID: ="exec"
+```
+
+Set `ActiveItemID` to the `ItemID` of the screen it sits on, so that row is highlighted. If you've uploaded the official logo to **Media**, set `LogoImage` to it to replace the text wordmark.
