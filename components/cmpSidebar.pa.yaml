@@ -278,7 +278,6 @@ ComponentDefinitions:
                         Height: =40
                         Text: =""
                         Tooltip: =ThisItem.Label
-                        AccessibleLabel: =ThisItem.Label
                         OnSelect: =Navigate(ThisItem.Screen, ScreenTransition.None)
                         Fill: =RGBA(0, 0, 0, 0)
                         HoverFill: =RGBA(24, 24, 27, 0.04)
