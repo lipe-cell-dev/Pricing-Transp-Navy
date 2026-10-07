@@ -98,7 +98,7 @@
                   Fill: =RGBA(228, 228, 231, 1)
       - galSidebarNav:
           Control: Gallery@2.15.0
-          Variant: Vertical
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
           Properties:
             AlignInContainer: =AlignInContainer.Stretch
             FillPortions: =1
