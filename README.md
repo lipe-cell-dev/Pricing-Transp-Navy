@@ -113,3 +113,60 @@ ActiveItemID: ="exec"
 ```
 
 Set `ActiveItemID` to the `ItemID` of the screen it sits on, so that row is highlighted. If you've uploaded the official logo to **Media**, set `LogoImage` to it to replace the text wordmark.
+
+## Date picker component (`cmpDatePicker`)
+
+A styled replacement for the standard date picker. A rounded field opens a calendar card with month navigation, a weekday header, a 6×7 day grid and **Hoje** / **Limpar** shortcuts. The selected day is filled with the accent colour and today has a ring around it. Days from the previous and next month are greyed out, and days outside `MinDate`/`MaxDate` are disabled. Month and weekday names follow the `Language` property (`pt-PT` by default).
+
+![Date picker closed and open](docs/datepicker-preview.png)
+
+| File | Use |
+|---|---|
+| `components/cmpDatePicker.pa.yaml` | Full component definition (custom properties, outputs + controls) |
+| `components/cmpDatePicker.controls.paste.yaml` | Controls only, ready for **Paste code** in Studio |
+
+### Add it to your app
+
+1. **Components** tab → **New component** → rename it to `cmpDatePicker`. Set Width `290`, Height `40` and `Fill` to `RGBA(0, 0, 0, 0)`.
+2. Add these **Input** custom properties:
+
+   | Name | Type | Default |
+   |---|---|---|
+   | `DefaultDate` | Date | `Blank()` |
+   | `MinDate` | Date | `Blank()` |
+   | `MaxDate` | Date | `Blank()` |
+   | `Placeholder` | Text | `"Selecionar data"` |
+   | `DateFormat` | Text | `"dd/mm/yyyy"` |
+   | `Language` | Text | `"pt-PT"` |
+   | `AccentColor` | Color | `RGBA(255, 95, 0, 1)` |
+
+3. Add these **Output** custom properties. Then select the component, pick each one in the property dropdown and enter its formula:
+
+   | Name | Type | Formula |
+   |---|---|---|
+   | `SelectedDate` | Date | `If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate)` |
+   | `IsOpen` | Boolean | `_dpOpen` |
+   | `RequiredHeight` | Number | `If(_dpOpen, 390, 40)` |
+
+4. Set the component's `OnReset` to:
+
+   ```
+   Set(_dpOpen, false); Set(_dpTouched, false); Set(_dpSelected, Blank())
+   ```
+
+5. Copy all of `cmpDatePicker.controls.paste.yaml`, then right-click the component in the Tree view → **Paste code**.
+
+### Use it on a screen
+
+Insert the component and give it a name, for example `dpDataInicio`. Then set:
+
+```
+Width: =290
+Height: =dpDataInicio.RequiredHeight
+DefaultDate: =Today()
+```
+
+- Read the picked date anywhere with `dpDataInicio.SelectedDate`.
+- Clear it with `Reset(dpDataInicio)`.
+- Bring the component to the front, so the calendar opens over the controls below it. If it sits inside an auto-layout container, the container grows while the calendar is open. Place it outside the container if you want the calendar to float instead.
+- Keep its width at 290 or more, because the calendar card is 290 wide.

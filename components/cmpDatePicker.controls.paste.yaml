@@ -1,0 +1,375 @@
+# Paste-ready controls for cmpDatePicker (generated from cmpDatePicker.pa.yaml).
+# In Power Apps Studio: create the component and its custom properties first,
+# then right-click the component in the Tree view and choose Paste code.
+
+- btnDpField:
+    Control: Classic/Button@2.2.0
+    Properties:
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =40
+      Text: |-
+        =With(
+            {sel: If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate)},
+            If(IsBlank(sel), cmpDatePicker.Placeholder, Text(sel, cmpDatePicker.DateFormat, cmpDatePicker.Language))
+        )
+      OnSelect: |-
+        =With(
+            {cur: Coalesce(If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate), Today())},
+            If(!_dpOpen, Set(_dpView, Date(Year(cur), Month(cur), 1)))
+        );
+        Set(_dpOpen, !_dpOpen)
+      Align: =Align.Left
+      VerticalAlign: =VerticalAlign.Middle
+      PaddingLeft: =12
+      PaddingRight: =40
+      Font: =Font.'Segoe UI'
+      FontWeight: =FontWeight.Normal
+      Size: =10.5
+      Color: =If(IsBlank(If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate)), RGBA(161, 161, 170, 1), RGBA(24, 24, 27, 1))
+      HoverColor: =Self.Color
+      PressedColor: =Self.Color
+      Fill: =RGBA(255, 255, 255, 1)
+      HoverFill: =RGBA(250, 250, 250, 1)
+      PressedFill: =RGBA(244, 244, 245, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      BorderColor: =If(_dpOpen, cmpDatePicker.AccentColor, RGBA(228, 228, 231, 1))
+      HoverBorderColor: =If(_dpOpen, cmpDatePicker.AccentColor, RGBA(212, 212, 216, 1))
+      PressedBorderColor: =cmpDatePicker.AccentColor
+      FocusedBorderColor: =cmpDatePicker.AccentColor
+      FocusedBorderThickness: =1
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      RadiusBottomLeft: =8
+      RadiusBottomRight: =8
+- imgDpFieldIcon:
+    Control: Image@2.2.3
+    Properties:
+      X: =Parent.Width - 30
+      Y: =11
+      Width: =18
+      Height: =18
+      OnSelect: =Select(btnDpField)
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl(
+            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='" &
+            Mid(JSON(If(_dpOpen, cmpDatePicker.AccentColor, RGBA(113, 113, 122, 1))), 2, 7) &
+            "' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/></svg>"
+        )
+- conDpCard:
+    Control: GroupContainer@1.5.0
+    Variant: AutoLayout
+    Properties:
+      Visible: =_dpOpen
+      X: =0
+      Y: =46
+      Width: =290
+      Height: =336
+      Fill: =RGBA(255, 255, 255, 1)
+      BorderColor: =RGBA(228, 228, 231, 1)
+      BorderThickness: =1
+      DropShadow: =DropShadow.Regular
+      RadiusTopLeft: =12
+      RadiusTopRight: =12
+      RadiusBottomLeft: =12
+      RadiusBottomRight: =12
+      LayoutDirection: =LayoutDirection.Vertical
+      LayoutJustifyContent: =LayoutJustifyContent.Start
+      LayoutAlignItems: =LayoutAlignItems.Stretch
+      LayoutGap: =4
+      LayoutWrap: =false
+      PaddingLeft: =12
+      PaddingRight: =12
+      PaddingTop: =12
+      PaddingBottom: =12
+    Children:
+      - conDpHeader:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =0
+            Height: =32
+            LayoutMinWidth: =0
+            LayoutMinHeight: =32
+            DropShadow: =DropShadow.None
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+          Children:
+            - lblDpMonth:
+                Control: Label@2.5.1
+                Properties:
+                  X: =6
+                  Y: =0
+                  Width: =Parent.Width - 82
+                  Height: =32
+                  Text: =Proper(Text(_dpView, "mmmm yyyy", cmpDatePicker.Language))
+                  VerticalAlign: =VerticalAlign.Middle
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =11
+                  Color: =RGBA(24, 24, 27, 1)
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+            - imgDpPrev:
+                Control: Image@2.2.3
+                Properties:
+                  X: =Parent.Width - 72
+                  Y: =0
+                  Width: =32
+                  Height: =32
+                  PaddingTop: =8
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#52525B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m15 18-6-6 6-6'/></svg>"
+                    )
+            - btnDpPrev:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =Parent.Width - 72
+                  Y: =0
+                  Width: =32
+                  Height: =32
+                  Text: =""
+                  Tooltip: ="Mês anterior"
+                  OnSelect: =Set(_dpView, DateAdd(_dpView, -1, TimeUnit.Months))
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(24, 24, 27, 0.06)
+                  PressedFill: =RGBA(24, 24, 27, 0.12)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  FocusedBorderColor: =cmpDatePicker.AccentColor
+                  FocusedBorderThickness: =1
+                  RadiusTopLeft: =16
+                  RadiusTopRight: =16
+                  RadiusBottomLeft: =16
+                  RadiusBottomRight: =16
+            - imgDpNext:
+                Control: Image@2.2.3
+                Properties:
+                  X: =Parent.Width - 36
+                  Y: =0
+                  Width: =32
+                  Height: =32
+                  PaddingTop: =8
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#52525B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></svg>"
+                    )
+            - btnDpNext:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =Parent.Width - 36
+                  Y: =0
+                  Width: =32
+                  Height: =32
+                  Text: =""
+                  Tooltip: ="Mês seguinte"
+                  OnSelect: =Set(_dpView, DateAdd(_dpView, 1, TimeUnit.Months))
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(24, 24, 27, 0.06)
+                  PressedFill: =RGBA(24, 24, 27, 0.12)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  FocusedBorderColor: =cmpDatePicker.AccentColor
+                  FocusedBorderThickness: =1
+                  RadiusTopLeft: =16
+                  RadiusTopRight: =16
+                  RadiusBottomLeft: =16
+                  RadiusBottomRight: =16
+      - imgDpWeekdays:
+          Control: Image@2.2.3
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =0
+            Height: =20
+            LayoutMinWidth: =0
+            LayoutMinHeight: =20
+            ImagePosition: =ImagePosition.Fill
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl(
+                  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 266 20'>" &
+                  Concat(
+                      Sequence(7, 0),
+                      "<text x='" & (19 + 38 * Value) & "' y='14' text-anchor='middle' font-family='Segoe UI, Arial, sans-serif' font-size='11' font-weight='600' fill='#A1A1AA'>" &
+                      Upper(Left(Text(DateAdd(Date(2024, 1, 1), Value, TimeUnit.Days), "ddd", cmpDatePicker.Language), 1)) &
+                      "</text>"
+                  ) &
+                  "</svg>"
+              )
+      - galDpDays:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =0
+            Height: =216
+            LayoutMinWidth: =0
+            LayoutMinHeight: =216
+            Items: |-
+              =With(
+                  {gridStart: DateAdd(_dpView, 1 - Weekday(_dpView, StartOfWeek.Monday), TimeUnit.Days)},
+                  ForAll(Sequence(42, 0), {Value: DateAdd(gridStart, Value, TimeUnit.Days)})
+              )
+            WrapCount: =7
+            TemplateSize: =36
+            TemplatePadding: =0
+            ShowScrollbar: =false
+            BorderThickness: =0
+          Children:
+            - btnDpDay:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =(Parent.TemplateWidth - Self.Width) / 2
+                  Y: =2
+                  Width: =32
+                  Height: =32
+                  Text: =Day(ThisItem.Value) & ""
+                  Tooltip: =Text(ThisItem.Value, "dddd, d mmmm yyyy", cmpDatePicker.Language)
+                  OnSelect: |-
+                    =Set(_dpSelected, ThisItem.Value);
+                    Set(_dpTouched, true);
+                    Set(_dpOpen, false)
+                  DisplayMode: |-
+                    =If(
+                        (!IsBlank(cmpDatePicker.MinDate) && ThisItem.Value < cmpDatePicker.MinDate) ||
+                        (!IsBlank(cmpDatePicker.MaxDate) && ThisItem.Value > cmpDatePicker.MaxDate),
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                  Align: =Align.Center
+                  VerticalAlign: =VerticalAlign.Middle
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  PaddingBottom: =0
+                  Font: =Font.'Segoe UI'
+                  Size: =10
+                  FontWeight: =If(ThisItem.Value = If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate) || ThisItem.Value = Today(), FontWeight.Semibold, FontWeight.Normal)
+                  Fill: =If(ThisItem.Value = If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate), cmpDatePicker.AccentColor, RGBA(0, 0, 0, 0))
+                  Color: |-
+                    =If(
+                        ThisItem.Value = If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate), RGBA(255, 255, 255, 1),
+                        ThisItem.Value = Today(), cmpDatePicker.AccentColor,
+                        Month(ThisItem.Value) = Month(_dpView), RGBA(39, 39, 42, 1),
+                        RGBA(161, 161, 170, 1)
+                    )
+                  HoverFill: =If(ThisItem.Value = If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate), cmpDatePicker.AccentColor, ColorFade(cmpDatePicker.AccentColor, 0.88))
+                  HoverColor: =If(ThisItem.Value = If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate), RGBA(255, 255, 255, 1), cmpDatePicker.AccentColor)
+                  PressedFill: =ColorFade(cmpDatePicker.AccentColor, -0.1)
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  DisabledFill: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(212, 212, 216, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.Solid
+                  BorderThickness: =If(ThisItem.Value = Today() && ThisItem.Value <> If(_dpTouched, _dpSelected, cmpDatePicker.DefaultDate), 1, 0)
+                  BorderColor: =cmpDatePicker.AccentColor
+                  HoverBorderColor: =cmpDatePicker.AccentColor
+                  PressedBorderColor: =cmpDatePicker.AccentColor
+                  FocusedBorderColor: =cmpDatePicker.AccentColor
+                  FocusedBorderThickness: =1
+                  RadiusTopLeft: =16
+                  RadiusTopRight: =16
+                  RadiusBottomLeft: =16
+                  RadiusBottomRight: =16
+      - conDpFooter:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            AlignInContainer: =AlignInContainer.Stretch
+            FillPortions: =0
+            Height: =32
+            LayoutMinWidth: =0
+            LayoutMinHeight: =32
+            DropShadow: =DropShadow.None
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+          Children:
+            - rctDpFooterDivider:
+                Control: Rectangle@2.3.0
+                Properties:
+                  X: =0
+                  Y: =0
+                  Width: =Parent.Width
+                  Height: =1
+                  Fill: =RGBA(244, 244, 245, 1)
+            - btnDpToday:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =0
+                  Y: =4
+                  Width: =64
+                  Height: =28
+                  Text: ="Hoje"
+                  OnSelect: |-
+                    =Set(_dpSelected, Today());
+                    Set(_dpTouched, true);
+                    Set(_dpOpen, false)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9.5
+                  Color: =cmpDatePicker.AccentColor
+                  HoverColor: =cmpDatePicker.AccentColor
+                  PressedColor: =cmpDatePicker.AccentColor
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =ColorFade(cmpDatePicker.AccentColor, 0.9)
+                  PressedFill: =ColorFade(cmpDatePicker.AccentColor, 0.8)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  FocusedBorderColor: =cmpDatePicker.AccentColor
+                  FocusedBorderThickness: =1
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
+            - btnDpClear:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  X: =Parent.Width - Self.Width
+                  Y: =4
+                  Width: =64
+                  Height: =28
+                  Text: ="Limpar"
+                  OnSelect: |-
+                    =Set(_dpSelected, Blank());
+                    Set(_dpTouched, true);
+                    Set(_dpOpen, false)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Normal
+                  Size: =9.5
+                  Color: =RGBA(113, 113, 122, 1)
+                  HoverColor: =RGBA(39, 39, 42, 1)
+                  PressedColor: =RGBA(39, 39, 42, 1)
+                  Fill: =RGBA(0, 0, 0, 0)
+                  HoverFill: =RGBA(24, 24, 27, 0.05)
+                  PressedFill: =RGBA(24, 24, 27, 0.1)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  FocusedBorderColor: =cmpDatePicker.AccentColor
+                  FocusedBorderThickness: =1
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
