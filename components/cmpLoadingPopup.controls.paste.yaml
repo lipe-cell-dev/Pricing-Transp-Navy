@@ -1,0 +1,181 @@
+# Paste-ready controls for cmpLoadingPopup (generated from cmpLoadingPopup.pa.yaml).
+# In Power Apps Studio: create the component and its custom properties first,
+# then right-click the component in the Tree view and choose Paste code.
+
+- tmrPopup:
+    Control: Timer@2.1.0
+    Properties:
+      Duration: =4000
+      Repeat: =true
+      AutoStart: =true
+      AutoPause: =true
+      Start: =cmpLoadingPopup.IsLoading
+      Visible: =false
+      X: =0
+      Y: =0
+      Width: =10
+      Height: =10
+- imgPopupBackdrop:
+    Control: Image@2.2.3
+    Properties:
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =Parent.Height
+      Image: =Blank()
+      Fill: =cmpLoadingPopup.BackdropColor
+- imgPopupShadow:
+    Control: Image@2.2.3
+    Properties:
+      X: =imgPopupCard.X - 24
+      Y: =imgPopupCard.Y - 16
+      Width: =imgPopupCard.Width + 48
+      Height: =imgPopupCard.Height + 48
+      ImagePosition: =ImagePosition.Stretch
+      Image: |-
+        =With(
+            {w: Round(Self.Width, 0), h: Round(Self.Height, 0)},
+            "data:image/svg+xml;utf8," & EncodeUrl(
+                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " & w & " " & h & "'>" &
+                "<defs><filter id='blur' x='-20%' y='-20%' width='140%' height='140%'><feGaussianBlur stdDeviation='10'/></filter></defs>" &
+                "<rect x='24' y='24' width='" & (w - 48) & "' height='" & (h - 48) & "' rx='16' fill='#000000' opacity='0.18' filter='url(#blur)'/>" &
+                "</svg>"
+            )
+        )
+- imgPopupCard:
+    Control: Image@2.2.3
+    Properties:
+      Width: =Min(340, Parent.Width - 32)
+      Height: =256
+      X: =(Parent.Width - Self.Width) / 2
+      Y: =(Parent.Height - Self.Height) / 2
+      Image: =Blank()
+      Fill: =RGBA(255, 255, 255, 1)
+      RadiusTopLeft: =16
+      RadiusTopRight: =16
+      RadiusBottomLeft: =16
+      RadiusBottomRight: =16
+- imgPopupAnim:
+    Control: Image@2.2.3
+    Properties:
+      Width: =96
+      Height: =96
+      X: =imgPopupCard.X + (imgPopupCard.Width - Self.Width) / 2
+      Y: =imgPopupCard.Y + 28
+      AccessibleLabel: =cmpLoadingPopup.Title
+      Image: |-
+        =With(
+            {
+                p: tmrPopup.Value / tmrPopup.Duration,
+                fmt: "0.00",
+                c: Mid(JSON(cmpLoadingPopup.AccentColor), 2, 7)
+            },
+            With(
+                {
+                    rot: Text(720 * p - 90, fmt, "en-US"),
+                    dash: Text(60 + 40 * Sin(4 * Pi() * p), fmt, "en-US"),
+                    bob: Text(1.2 * Sin(4 * Pi() * p), fmt, "en-US"),
+                    tilt: Text(2 * Cos(4 * Pi() * p), fmt, "en-US"),
+                    w1: Text(-16 * Mod(2 * p, 1), fmt, "en-US"),
+                    w2: Text(-20 * p, fmt, "en-US"),
+                    q: Mod(2 * p, 1)
+                },
+                "data:image/svg+xml;utf8," & EncodeUrl(
+                    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='" & c & "' stroke-linecap='round' stroke-linejoin='round'>" &
+                    "<defs><clipPath id='inner'><circle cx='50' cy='50' r='31'/></clipPath></defs>" &
+                    "<circle cx='50' cy='50' r='40' stroke-width='5' opacity='0.15'/>" &
+                    "<circle cx='50' cy='50' r='40' stroke-width='5' stroke-dasharray='" & dash & " 252' transform='rotate(" & rot & " 50 50)'/>" &
+                    "<g clip-path='url(#inner)'>" &
+                    "<circle cx='" & Text(34.6 - 3 * q, fmt, "en-US") & "' cy='" & Text(34 - 8 * q, fmt, "en-US") & "' r='" & Text(1 + 1.5 * q, fmt, "en-US") & "' stroke-width='1' opacity='" & Text(1 - q, fmt, "en-US") & "'/>" &
+                    "<g transform='translate(0 " & bob & ") rotate(" & tilt & " 50 56)'>" &
+                    "<g transform='translate(26.5 36) scale(0.3) translate(-128 -86)' stroke-width='5.5'>" &
+                    "<path d='M150,100 L150,86 L160,86 L160,100'/>" &
+                    "<rect x='142' y='100' width='26' height='32' rx='2'/>" &
+                    "<rect x='176' y='118' width='18' height='14' rx='1.5'/><rect x='198' y='118' width='18' height='14' rx='1.5'/><rect x='220' y='118' width='18' height='14' rx='1.5'/><rect x='242' y='118' width='18' height='14' rx='1.5'/>" &
+                    "<rect x='187' y='104' width='18' height='14' rx='1.5'/><rect x='209' y='104' width='18' height='14' rx='1.5'/><rect x='231' y='104' width='18' height='14' rx='1.5'/>" &
+                    "<line x1='272' y1='132' x2='272' y2='114'/>" &
+                    "<path d='M128,132 L284,132 L268,152 L144,152 Z'/>" &
+                    "</g></g>" &
+                    "<g transform='translate(" & w1 & " 0)' stroke-width='1.6'><path d='M10,60 Q14,58 18,60 T26,60 T34,60 T42,60 T50,60 T58,60 T66,60 T74,60 T82,60 T90,60 T98,60 T106,60 T114,60 T122,60'/></g>" &
+                    "<g transform='translate(" & w2 & " 0)' stroke-width='1.2' opacity='0.4' stroke-dasharray='6 5'><path d='M10,67 Q15,65.5 20,67 T30,67 T40,67 T50,67 T60,67 T70,67 T80,67 T90,67 T100,67 T110,67 T120,67 T130,67'/></g>" &
+                    "</g>" &
+                    "</svg>"
+                )
+            )
+        )
+- lblPopupTitle:
+    Control: Label@2.5.1
+    Properties:
+      X: =imgPopupCard.X + 24
+      Y: =imgPopupCard.Y + 136
+      Width: =imgPopupCard.Width - 48
+      Height: =26
+      Align: =Align.Center
+      VerticalAlign: =VerticalAlign.Middle
+      Font: =Font.'Segoe UI'
+      FontWeight: =FontWeight.Semibold
+      Size: =13
+      Color: =RGBA(24, 24, 27, 1)
+      PaddingLeft: =0
+      PaddingRight: =0
+      PaddingTop: =0
+      PaddingBottom: =0
+      Text: |-
+        =If(
+            IsBlank(cmpLoadingPopup.Progress),
+            cmpLoadingPopup.Title & Left("...", Mod(RoundDown(tmrPopup.Value / 400, 0), 4)) & Left("   ", 3 - Mod(RoundDown(tmrPopup.Value / 400, 0), 4)),
+            cmpLoadingPopup.Title & " " & Text(Min(100, Max(0, cmpLoadingPopup.Progress)), "0") & "%"
+        )
+- lblPopupMessage:
+    Control: Label@2.5.1
+    Properties:
+      X: =imgPopupCard.X + 24
+      Y: =imgPopupCard.Y + 164
+      Width: =imgPopupCard.Width - 48
+      Height: =44
+      Align: =Align.Center
+      VerticalAlign: =VerticalAlign.Top
+      Font: =Font.'Segoe UI'
+      Size: =10
+      Color: =RGBA(113, 113, 122, 1)
+      PaddingLeft: =0
+      PaddingRight: =0
+      PaddingTop: =0
+      PaddingBottom: =0
+      Text: =cmpLoadingPopup.Message
+- imgPopupTrack:
+    Control: Image@2.2.3
+    Properties:
+      Width: =imgPopupCard.Width - 96
+      Height: =4
+      X: =imgPopupCard.X + 48
+      Y: =imgPopupCard.Y + 224
+      Image: =Blank()
+      Fill: =ColorFade(cmpLoadingPopup.AccentColor, 0.85)
+      RadiusTopLeft: =2
+      RadiusTopRight: =2
+      RadiusBottomLeft: =2
+      RadiusBottomRight: =2
+- imgPopupBar:
+    Control: Image@2.2.3
+    Properties:
+      Width: |-
+        =If(
+            IsBlank(cmpLoadingPopup.Progress),
+            imgPopupTrack.Width * 0.3,
+            imgPopupTrack.Width * Min(100, Max(0, cmpLoadingPopup.Progress)) / 100
+        )
+      Height: =imgPopupTrack.Height
+      X: |-
+        =If(
+            IsBlank(cmpLoadingPopup.Progress),
+            imgPopupTrack.X + (imgPopupTrack.Width - Self.Width) * (0.5 - 0.5 * Cos(2 * Pi() * tmrPopup.Value / tmrPopup.Duration)),
+            imgPopupTrack.X
+        )
+      Y: =imgPopupTrack.Y
+      Image: =Blank()
+      Fill: =cmpLoadingPopup.AccentColor
+      RadiusTopLeft: =2
+      RadiusTopRight: =2
+      RadiusBottomLeft: =2
+      RadiusBottomRight: =2

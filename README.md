@@ -170,3 +170,59 @@ DefaultDate: =Today()
 - Clear it with `Reset(dpDataInicio)`.
 - Bring the component to the front, so the calendar opens over the controls below it. If it sits inside an auto-layout container, the container grows while the calendar is open. Place it outside the container if you want the calendar to float instead.
 - Keep its width at 290 or more, because the calendar card is 290 wide.
+
+## Loading popup component (`cmpLoadingPopup`)
+
+A modal loading popup. It dims the whole screen and blocks clicks on it, then shows a centred white card. The card holds an orange ring spinning around a small outlined ship on moving waves, a title, a message and a progress bar. Leave `Progress` blank for an indeterminate bar that slides back and forth, with animated dots after the title. Set it to 0-100 for a filling bar, with the percentage after the title.
+
+![Loading popup over the Painel semanal screen](docs/loading-popup-preview.png)
+
+| File | Use |
+|---|---|
+| `components/cmpLoadingPopup.pa.yaml` | Full component definition (custom properties + controls) |
+| `components/cmpLoadingPopup.controls.paste.yaml` | Controls only, ready for **Paste code** in Studio |
+
+It uses only Timer, Image and Label controls, the same types as `cmpMarineLoader`.
+
+### Add it to your app
+
+1. **Components** tab → **New component** → rename it to `cmpLoadingPopup`. Set Width `1366`, Height `768` and `Fill` to `RGBA(0, 0, 0, 0)`.
+2. Add these custom properties (all **Input**):
+
+   | Name | Type | Default |
+   |---|---|---|
+   | `IsLoading` | Boolean | `true` |
+   | `Title` | Text | `"A carregar"` |
+   | `Message` | Text | `"Aguarde enquanto preparamos os dados."` |
+   | `Progress` | Number | `Blank()` |
+   | `AccentColor` | Color | `RGBA(255, 95, 0, 1)` |
+   | `BackdropColor` | Color | `RGBA(24, 24, 27, 0.45)` |
+
+3. Copy all of `cmpLoadingPopup.controls.paste.yaml`, then right-click the component in the Tree view → **Paste code**.
+
+### Use it on a screen
+
+Insert the component last, so it sits on top of everything, and set:
+
+```
+X: =0
+Y: =0
+Width: =App.Width
+Height: =App.Height
+Visible: =locLoading
+IsLoading: =locLoading
+Title: ="A carregar"
+Message: ="A obter as cotações do dia."
+```
+
+Show it around slow work:
+
+```
+UpdateContext({ locLoading: true });
+ClearCollect(colCotacoes, 'Cotações');
+UpdateContext({ locLoading: false })
+```
+
+For work with known steps, drive the bar with a variable, for example `Progress: =locProgresso`, and set `locProgresso` to 25, 50, 75 and 100 as each step finishes.
+
+> Timers only run in **Preview** (F5) or the published app, so the popup stays still while you edit in Studio.
