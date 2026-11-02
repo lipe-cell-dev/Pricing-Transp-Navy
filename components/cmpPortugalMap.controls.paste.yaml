@@ -1,0 +1,222 @@
+# Paste-ready controls for cmpPortugalMap (generated from cmpPortugalMap.pa.yaml).
+# In Power Apps Studio: create the component and its custom properties first,
+# then right-click the component in the Tree view and choose Paste code.
+
+- imgMapCard:
+    Control: Image@2.2.3
+    Properties:
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =Parent.Height
+      Image: =Blank()
+      Fill: =RGBA(255, 255, 255, 1)
+      BorderColor: =RGBA(228, 228, 231, 1)
+      BorderThickness: =1
+      RadiusTopLeft: =12
+      RadiusTopRight: =12
+      RadiusBottomLeft: =12
+      RadiusBottomRight: =12
+- imgMap:
+    Control: Image@2.2.3
+    Properties:
+      Width: =Min(Parent.Width - 24, (Parent.Height - 80) / 1.48)
+      Height: =Self.Width * 1.48
+      X: =(Parent.Width - Self.Width) / 2
+      Y: =12
+      ImagePosition: =ImagePosition.Stretch
+      AccessibleLabel: ="Mapa de Portugal"
+      Image: |-
+        =With(
+            {
+                c: Mid(JSON(cmpPortugalMap.AccentColor), 2, 7),
+                sel: If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|")
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl(
+                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 592' font-family='Segoe UI, Arial, sans-serif'>" &
+                "<rect x='10' y='10' width='150' height='112' rx='10' fill='#FAFAFA' stroke='#E4E4E7'/>" &
+                "<text x='20' y='23' font-size='7.5' font-weight='600' letter-spacing='0.6' fill='#A1A1AA'>AÇORES</text>" &
+                "<rect x='10' y='132' width='140' height='96' rx='10' fill='#FAFAFA' stroke='#E4E4E7'/>" &
+                "<text x='20' y='145' font-size='7.5' font-weight='600' letter-spacing='0.6' fill='#A1A1AA'>MADEIRA</text>" &
+                Concat(
+                    cmpPortugalMap.Regions,
+                    With(
+                        {fill: If(("|" & ID & "|") in sel, c, "#E9E9EC"), island: ID = "PT-20" || ID = "PT-30"},
+                        "<path d='" & Path & "' fill='" & fill & "' stroke='" & If(island, fill, "#FFFFFF") & "' stroke-width='" & If(island, "1.6", "0.9") & "' stroke-linejoin='round'/>"
+                    )
+                ) &
+                If(
+                    cmpPortugalMap.ShowLabels,
+                    Concat(
+                        Filter(cmpPortugalMap.Regions, ID <> "PT-20" && ID <> "PT-30"),
+                        "<text x='" & LX & "' y='" & LY & "' font-size='7' font-weight='600' text-anchor='middle' fill='" & If(("|" & ID & "|") in sel, "#FFFFFF", "#8E8E96") & "'>" & Name & "</text>"
+                    ),
+                    ""
+                ) &
+                Concat(
+                    AddColumns(cmpPortugalMap.Places, PX, If(Longitude < -20, 18 + (Longitude - (-31.2849)) * 21.3624, Latitude < 34, 33.5864 + (Longitude - (-17.2521)) * 95.0393, 110.2008 + (Longitude - (-9.4975)) * 85.0061), PY, If(Longitude < -20, 32.9555 + (39.7283 - Latitude) * 27.2328, Latitude < 34, 150 + (33.1108 - Latitude) * 113.0674, 10 + (42.1536 - Latitude) * 110.2599)),
+                    With(
+                        {on: ("|" & ID & "|") in sel, x: Text(PX, "0.0", "en-US"), y: Text(PY, "0.0", "en-US"), left: Longitude < -20 || PX > 330},
+                        "<circle cx='" & x & "' cy='" & y & "' r='" & If(on, "6", "4.5") & "' fill='" & If(on, c, "#27272A") & "' stroke='#FFFFFF' stroke-width='" & If(on, "2", "1.5") & "'/>" &
+                        If(
+                            on,
+                            "<text x='" & Text(If(left, PX - 9, PX + 9), "0.0", "en-US") & "' y='" & Text(PY + 3, "0.0", "en-US") & "' text-anchor='" & If(left, "end", "start") & "' font-size='8.5' font-weight='700' fill='#18181B' stroke='#FFFFFF' stroke-width='3' paint-order='stroke'>" & Name & "</text>",
+                            ""
+                        )
+                    )
+                ) &
+                "</svg>"
+            )
+        )
+- galMapHit:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      X: =imgMap.X
+      Y: =imgMap.Y
+      Width: =imgMap.Width
+      Height: =imgMap.Height
+      WrapCount: =25
+      TemplateSize: =imgMap.Height / 37
+      TemplatePadding: =0
+      ShowScrollbar: =false
+      BorderThickness: =0
+      Items: |-
+        =With(
+            {raster: "..........................sssssssss.ppp............ssssssssspppp.qqqqdddd...sssssssssppcccqqqqdddd...ssssssssscccccqqqqddddd..sssssssssmccccqqqdddddd..sssssssss.mmmmqqqddddd...sssssssss.mmmmrrrdddd....tttttttt..aaarrrriii.....tttttttt..aaarrrriii.....tttttttt..aarrrriiii.....tttttttt.aaarrrriiii.....tttttttt.ffarrfiiiii.....tttttttt.ffffffieeei..............ffffffeeee...............jjfjfeeeeee.............jjjjjeeeeeee.............jjnnneeeeee..............jjnnnnnll...............jjnnnnnllll.............kkknnnnlllll.............kkknnnlllllll............kkknnnnglllll............kkknnngggggll............kkoooggggggg..............ooooggggggg................ooogggggg................oooobbggbg...............ooobbbbbbbb..............ooobbbbbb................oobbbbbbb................bbbbbbbb.................bbbbbbbh.................hhhhbhhh.................hhhhhhhh................hhhhhhhh................................."},
+            ForAll(Sequence(925, 0), {Idx: Value, Code: Mid(raster, Value + 1, 1)})
+        )
+    Children:
+      - btnMapCell:
+          Control: Classic/Button@2.2.0
+          Properties:
+            X: =0
+            Y: =0
+            Width: =Parent.TemplateWidth
+            Height: =Parent.TemplateHeight
+            Text: =""
+            Tooltip: =LookUp(cmpPortugalMap.Regions, Code = ThisItem.Code).Name
+            Fill: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0.04)
+            Color: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            OnSelect: |-
+              =With(
+                  {
+                      cx: (Mod(ThisItem.Idx, 25) + 0.5) * 16,
+                      cy: (RoundDown(ThisItem.Idx / 25, 0) + 0.5) * 16,
+                      sel: If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|")
+                  },
+                  With(
+                      {
+                          pin: First(
+                              Sort(
+                                  Filter(
+                                      AddColumns(cmpPortugalMap.Places, PX, If(Longitude < -20, 18 + (Longitude - (-31.2849)) * 21.3624, Latitude < 34, 33.5864 + (Longitude - (-17.2521)) * 95.0393, 110.2008 + (Longitude - (-9.4975)) * 85.0061), PY, If(Longitude < -20, 32.9555 + (39.7283 - Latitude) * 27.2328, Latitude < 34, 150 + (33.1108 - Latitude) * 113.0674, 10 + (42.1536 - Latitude) * 110.2599)),
+                                      (PX - cx) ^ 2 + (PY - cy) ^ 2 <= 196
+                                  ),
+                                  (PX - cx) ^ 2 + (PY - cy) ^ 2
+                              )
+                          ),
+                          region: LookUp(cmpPortugalMap.Regions, Code = ThisItem.Code)
+                      },
+                      With(
+                          {id: If(!IsBlank(pin), pin.ID, cmpPortugalMap.SelectRegions && !IsBlank(region), region.ID, "")},
+                          If(
+                              id <> "",
+                              Set(_mpTouched, true);
+                              Set(
+                                  _mpSel,
+                                  If(
+                                      ("|" & id & "|") in sel,
+                                      Substitute(sel, "|" & id & "|", "|"),
+                                      If(cmpPortugalMap.MultiSelect, sel & id & "|", "|" & id & "|")
+                                  )
+                              )
+                          )
+                      )
+                  )
+              )
+- rctMapFooterDivider:
+    Control: Rectangle@2.3.0
+    Properties:
+      X: =1
+      Y: =Parent.Height - 60
+      Width: =Parent.Width - 2
+      Height: =1
+      Fill: =RGBA(244, 244, 245, 1)
+- lblMapSummary:
+    Control: Label@2.5.1
+    Properties:
+      X: =16
+      Y: =Parent.Height - 56
+      Width: =Parent.Width - 112
+      Height: =48
+      VerticalAlign: =VerticalAlign.Middle
+      Font: =Font.'Segoe UI'
+      Size: =9.5
+      Color: =RGBA(82, 82, 91, 1)
+      PaddingLeft: =0
+      PaddingRight: =0
+      PaddingTop: =0
+      PaddingBottom: =0
+      Text: |-
+        =With(
+            {sel: If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|")},
+            With(
+                {
+                    a: Concat(Filter(cmpPortugalMap.Regions, ("|" & ID & "|") in sel), Name, ", "),
+                    b: Concat(Filter(cmpPortugalMap.Places, ("|" & ID & "|") in sel), Name, ", "),
+                    n: CountRows(Filter(cmpPortugalMap.Regions, ("|" & ID & "|") in sel)) + CountRows(Filter(cmpPortugalMap.Places, ("|" & ID & "|") in sel))
+                },
+                If(
+                    n = 0,
+                    "Clique no mapa para selecionar distritos ou locais.",
+                    n & If(n = 1, " selecionado: ", " selecionados: ") & a & If(a <> "" && b <> "", ", ", "") & b
+                )
+            )
+        )
+- btnMapClear:
+    Control: Classic/Button@2.2.0
+    Properties:
+      X: =Parent.Width - Self.Width - 12
+      Y: =Parent.Height - 46
+      Width: =80
+      Height: =32
+      Text: ="Limpar"
+      Visible: =Len(If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|")) > 2
+      OnSelect: |-
+        =Set(_mpTouched, true);
+        Set(_mpSel, "|")
+      Font: =Font.'Segoe UI'
+      Size: =9.5
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(63, 63, 70, 1)
+      HoverColor: =RGBA(24, 24, 27, 1)
+      PressedColor: =RGBA(24, 24, 27, 1)
+      Fill: =RGBA(255, 255, 255, 1)
+      HoverFill: =RGBA(244, 244, 245, 1)
+      PressedFill: =RGBA(228, 228, 231, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      BorderColor: =RGBA(228, 228, 231, 1)
+      HoverBorderColor: =RGBA(212, 212, 216, 1)
+      PressedBorderColor: =RGBA(212, 212, 216, 1)
+      FocusedBorderColor: =RGBA(255, 95, 0, 1)
+      FocusedBorderThickness: =1
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      RadiusBottomLeft: =8
+      RadiusBottomRight: =8

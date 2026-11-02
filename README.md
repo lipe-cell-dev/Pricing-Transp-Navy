@@ -226,3 +226,62 @@ UpdateContext({ locLoading: false })
 For work with known steps, drive the bar with a variable, for example `Progress: =locProgresso`, and set `locProgresso` to 25, 50, 75 and 100 as each step finishes.
 
 > Timers only run in **Preview** (F5) or the published app, so the popup stays still while you edit in Studio.
+
+## Portugal map selector (`cmpPortugalMap`)
+
+A map of Portugal for picking places. The 18 mainland districts and the Azores and Madeira (in boxes on the left) are clickable, and selected ones fill with the accent colour. Point locations from the `Places` table appear as pins. A selected pin turns orange and shows its name. Clicking an item again clears it. A footer lists the selection and has a **Limpar** button. District boundaries come from [Natural Earth](https://www.naturalearthdata.com/) (public domain), simplified.
+
+![Portugal map, empty and with a selection](docs/portugal-map-preview.png)
+
+| File | Use |
+|---|---|
+| `components/cmpPortugalMap.pa.yaml` | Full component definition (custom properties, outputs + controls) |
+| `components/cmpPortugalMap.controls.paste.yaml` | Controls only, ready for **Paste code** in Studio |
+| `components/cmpPortugalMap.regions.fx` | Default of the `Regions` property (district shapes), ready for the formula bar |
+| `components/cmpPortugalMap.places.fx` | Default of the `Places` property (sample pins), ready for the formula bar |
+
+### How clicks work
+
+Power Apps can't tell where an image was clicked. So an invisible grid of 25 × 37 buttons (`galMapHit`) sits over the map. Each cell knows which district it covers, from a lookup string worked out ahead of time. When clicked, a cell first checks for a pin within 14 map units and selects that, and otherwise selects its district. Clicks on the sea do nothing. Anywhere inside the Açores or Madeira box selects that region. Hovering shows the district name as a tooltip.
+
+### Add it to your app
+
+1. **Components** tab → **New component** → rename it to `cmpPortugalMap`. Set Width `420`, Height `672` and `Fill` to `RGBA(0, 0, 0, 0)`.
+2. Add these **Input** custom properties:
+
+   | Name | Type | Default |
+   |---|---|---|
+   | `Regions` | Table | contents of `cmpPortugalMap.regions.fx` |
+   | `Places` | Table | contents of `cmpPortugalMap.places.fx` |
+   | `SelectRegions` | Boolean | `true` |
+   | `MultiSelect` | Boolean | `true` |
+   | `ShowLabels` | Boolean | `true` |
+   | `DefaultSelected` | Text | `""` |
+   | `AccentColor` | Color | `RGBA(255, 95, 0, 1)` |
+
+3. Add these **Output** custom properties. Then select the component, pick each one in the property dropdown and enter its formula:
+
+   | Name | Type | Formula |
+   |---|---|---|
+   | `SelectedRegions` | Table | `Filter(cmpPortugalMap.Regions, ("|" & ID & "|") in If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|"))` |
+   | `SelectedPlaces` | Table | `Filter(cmpPortugalMap.Places, ("|" & ID & "|") in If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|"))` |
+   | `SelectedIDs` | Text | `Mid(If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|"), 2, Max(0, Len(If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|")) - 2))` |
+   | `SelectedCount` | Number | `CountRows(Filter(cmpPortugalMap.Regions, ("|" & ID & "|") in If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|"))) + CountRows(Filter(cmpPortugalMap.Places, ("|" & ID & "|") in If(_mpTouched, _mpSel, "|" & cmpPortugalMap.DefaultSelected & "|")))` |
+
+4. Set the component's `OnReset` to:
+
+   ```
+   Set(_mpTouched, false); Set(_mpSel, "|")
+   ```
+
+5. Copy all of `cmpPortugalMap.controls.paste.yaml`, then right-click the component in the Tree view → **Paste code**.
+
+### Use it on a screen
+
+Insert the component and name it, for example `mapLocais`. Keep the 420 × 672 proportions, or make it larger, because the map scales with the component.
+
+- **Your own locations:** set `Places` to a table with the columns `ID`, `Name`, `Latitude` and `Longitude`. For example `ShowColumns(Locais, ID, Name, Latitude, Longitude)`, or use `RenameColumns` if your columns have other names. Pins in the Azores or Madeira land in their boxes automatically.
+- **Pins only:** set `SelectRegions` to `false`. **One choice at a time:** set `MultiSelect` to `false`.
+- **Start with a selection:** set `DefaultSelected`, for example `"PT-11|PT-13|L03"`. District IDs are ISO codes (`PT-01` Aveiro … `PT-18` Viseu, `PT-20` Açores, `PT-30` Madeira).
+- **Read the selection:** `mapLocais.SelectedRegions` and `mapLocais.SelectedPlaces` (whole rows), `mapLocais.SelectedIDs` (for example `"PT-13|L03"`) and `mapLocais.SelectedCount`.
+- **Clear it:** `Reset(mapLocais)`.
