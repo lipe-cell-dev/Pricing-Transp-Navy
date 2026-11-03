@@ -285,3 +285,7 @@ Insert the component and name it, for example `mapLocais`. Keep the 420 × 672 p
 - **Start with a selection:** set `DefaultSelected`, for example `"PT-11|PT-13|L03"`. District IDs are ISO codes (`PT-01` Aveiro … `PT-18` Viseu, `PT-20` Açores, `PT-30` Madeira).
 - **Read the selection:** `mapLocais.SelectedRegions` and `mapLocais.SelectedPlaces` (whole rows), `mapLocais.SelectedIDs` (for example `"PT-13|L03"`) and `mapLocais.SelectedCount`.
 - **Clear it:** `Reset(mapLocais)`.
+
+### Hover version (code component)
+
+Canvas components can't highlight a whole district on hover, because Power Apps doesn't report where the mouse is. `pcf/PortugalMap` is a code component (PCF) version of the same map that can. It highlights the whole district under the mouse, shows a tooltip, and sends the hovered name back to the app. It has to be built with the Power Platform CLI and allowed by an environment admin. See [`pcf/README.md`](pcf/README.md).

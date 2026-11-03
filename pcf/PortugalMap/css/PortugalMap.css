@@ -1,0 +1,152 @@
+.pm-root {
+    position: relative;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+    --pm-accent: #ff5f00;
+    --pm-hover: #ffcfb2;
+}
+
+.pm-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+}
+
+.pm-inset {
+    fill: #fafafa;
+    stroke: #e4e4e7;
+}
+
+.pm-inset-title {
+    font-size: 7.5px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    fill: #a1a1aa;
+}
+
+.pm-region {
+    fill: #e9e9ec;
+    stroke: #ffffff;
+    stroke-width: 0.9;
+    stroke-linejoin: round;
+    cursor: pointer;
+    outline: none;
+    transition: fill 120ms ease;
+}
+
+.pm-island {
+    stroke: #e9e9ec;
+    stroke-width: 1.6;
+}
+
+.pm-inset {
+    cursor: pointer;
+    transition: fill 120ms ease, stroke 120ms ease;
+}
+
+.pm-inset.pm-hovered {
+    stroke: var(--pm-hover);
+}
+
+.pm-region.pm-hovered {
+    fill: var(--pm-hover);
+}
+
+.pm-island.pm-hovered {
+    stroke: var(--pm-hover);
+}
+
+.pm-region.pm-selected {
+    fill: var(--pm-accent);
+}
+
+.pm-island.pm-selected {
+    stroke: var(--pm-accent);
+}
+
+.pm-region.pm-selected.pm-hovered {
+    fill: var(--pm-accent);
+    filter: brightness(0.9);
+}
+
+.pm-no-region-select .pm-region,
+.pm-no-region-select .pm-inset {
+    cursor: default;
+}
+
+.pm-label {
+    font-size: 7px;
+    font-weight: 600;
+    text-anchor: middle;
+    fill: #8e8e96;
+    pointer-events: none;
+}
+
+.pm-label.pm-selected {
+    fill: #ffffff;
+}
+
+.pm-pin {
+    cursor: pointer;
+    outline: none;
+}
+
+.pm-pin-hit {
+    fill: transparent;
+}
+
+.pm-pin-dot {
+    fill: #27272a;
+    stroke: #ffffff;
+    stroke-width: 1.5;
+    transition: r 120ms ease;
+}
+
+.pm-pin.pm-hovered .pm-pin-dot {
+    r: 6;
+}
+
+.pm-pin.pm-selected .pm-pin-dot {
+    fill: var(--pm-accent);
+    stroke-width: 2;
+    r: 6;
+}
+
+.pm-pin-label {
+    font-size: 8.5px;
+    font-weight: 700;
+    fill: #18181b;
+    stroke: #ffffff;
+    stroke-width: 3px;
+    paint-order: stroke;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+.pm-pin.pm-hovered .pm-pin-label,
+.pm-pin.pm-selected .pm-pin-label {
+    opacity: 1;
+}
+
+.pm-tooltip {
+    position: absolute;
+    pointer-events: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #18181b;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 100ms ease, transform 100ms ease;
+    z-index: 2;
+}
+
+.pm-tooltip.pm-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

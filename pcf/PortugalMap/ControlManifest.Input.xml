@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="Pricing" constructor="PortugalMap" version="1.0.0" display-name-key="Portugal Map" description-key="Clickable map of Portugal (districts, Azores, Madeira) with hover highlight and location pins." control-type="standard">
+    <external-service-usage enabled="false"></external-service-usage>
+    <property name="selectedIds" display-name-key="SelectedIds" description-key="Selected IDs separated by |, for example PT-11|L03. Set it to preselect; read it to get the selection." of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="placesJson" display-name-key="PlacesJson" description-key="JSON array of pins with ID, Name, Latitude and Longitude, for example JSON(ShowColumns(Locais, ID, Name, Latitude, Longitude))." of-type="Multiple" usage="input" required="false" />
+    <property name="selectRegions" display-name-key="SelectRegions" description-key="true lets users select districts; false makes only pins selectable." of-type="TwoOptions" usage="input" default-value="true" />
+    <property name="multiSelect" display-name-key="MultiSelect" description-key="true allows several selections; false keeps only the last one." of-type="TwoOptions" usage="input" default-value="true" />
+    <property name="showLabels" display-name-key="ShowLabels" description-key="Shows district names on the map." of-type="TwoOptions" usage="input" default-value="true" />
+    <property name="accentColor" display-name-key="AccentColor" description-key="Hex colour for selected and hovered shapes, for example #FF5F00." of-type="SingleLine.Text" usage="input" default-value="#FF5F00" />
+    <property name="hoveredId" display-name-key="HoveredId" description-key="ID of the district or pin under the mouse (blank when none)." of-type="SingleLine.Text" usage="output" />
+    <property name="hoveredName" display-name-key="HoveredName" description-key="Name of the district or pin under the mouse (blank when none)." of-type="SingleLine.Text" usage="output" />
+    <property name="selectedNames" display-name-key="SelectedNames" description-key="Names of the selected districts and pins, separated by commas." of-type="SingleLine.Text" usage="output" />
+    <property name="selectedCount" display-name-key="SelectedCount" description-key="Number of selected districts and pins." of-type="Whole.None" usage="output" />
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/PortugalMap.css" order="1" />
+    </resources>
+  </control>
+</manifest>
